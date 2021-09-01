@@ -3,6 +3,7 @@ const indexcontroller = require('../app/controllers/index')
 const getuserdatamiddleware = require('../app/middleware/getuserdata')
 const {isuserlogin,whenuserlogin} = require('../app/middleware/isuserlogin')
 const expencecon = require('../app/controllers/expencecon')
+const companyCon = require('../app/controllers/companyCon')
 const getuserdata = require('../app/middleware/getuserdata');
 const profilecon = require('../app/controllers/profilecon');
 
@@ -23,10 +24,18 @@ const initroute = (app) =>{
 
     app.get('/home',isuserlogin,getuserdata,indexcontroller().index);
 
+    // expenses
     app.get('/addexpence',isuserlogin,getuserdata,expencecon().addexpence);
     app.get('/viewexpence',isuserlogin,getuserdata,expencecon().viewexpence);
     app.get('/viewexpence/:page',isuserlogin,getuserdata,expencecon().viewexpencebypage);
     app.get('/deleteexpense/:id',isuserlogin,getuserdata,expencecon().deleteexpense);
+
+    // Company
+    app.get('/addcompany',isuserlogin,getuserdata,companyCon().addcompany);
+    app.get('/viewcompany',isuserlogin,getuserdata,companyCon().viewcompany);
+    app.get('/deletecompany/:id',isuserlogin,getuserdata,companyCon().deleteCompany);
+    app.get('/editcompany/:id',isuserlogin,getuserdata,companyCon().editcompany);
+    app.get('/viewandaddsalery/:id',isuserlogin,getuserdata,companyCon().viewandaddsalery);
 
     /// profile
     app.get('/viewprofile',isuserlogin,getuserdata,profilecon().viewprofile);

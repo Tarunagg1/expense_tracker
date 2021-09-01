@@ -1,0 +1,66 @@
+<div class="container-fluid">
+  <% if(companyData.length){ %>
+  <h4 class="mt-4 h3">View All Company</h4>
+  <table
+    id="datatables-dashboard-projects"
+    class="table mt-5 table-striped my-0 dataTable no-footer"
+  >
+    <thead>
+      <tr role="row">
+        <th>Sno.</th>
+        <th>Company name</th>
+        <th>Join data</th>
+        <th>Since</th>
+        <th>degination</th>
+        <th>Salery</th>
+        <th>remark</th>
+        <th>status</th>
+        <th>action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% companyData.forEach((compdata,i)=>{ %>
+      <tr role="row" class="odd">
+        <td><%= i+1 %></td>
+        <td><%= compdata.companyname %></td>
+        <td><%= new Date(compdata.joindate).toLocaleDateString() %></td>
+        <td><%= new Date(compdata.joindate).getMonth() %> Months</td>
+        <td><%= compdata.degination %></td>
+        <td>
+          <span class="badge badge-success"><%= compdata.salery %></span>
+        </td>
+
+        <td><%= compdata.remark %></td>
+        <td>
+          <% if(compdata.isactive) { %>
+          <span>Active</span>
+          <% } else { %>
+          <span>Leave</span>
+          <% } %>
+        </td>
+        <td>
+          <a
+            href="/deletecompany/<%= compdata._id %>"
+            class="btn btn-sm btn-danger"
+            >Delete</a
+          >
+          <a
+            href="/editcompany/<%= compdata._id %>"
+            class="btn btn-sm btn-success"
+            >Edit</a
+          >
+          <a
+            href="/editcompany/<%= compdata._id %>"
+            class="btn btn-sm btn-secondary"
+            >Manage</a
+          >
+          
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  <% }else{ %>
+  <h1>No Company found</h1>
+  <% } %>
+</div>

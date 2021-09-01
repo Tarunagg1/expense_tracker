@@ -46,7 +46,7 @@ function indexcontroller(){
         getreport:async function(req,res){
             loginuser = req.userdata[0].email;
             const {from,to} = req.body;
-            console.log(from,to);
+            // console.log(from,to);
             try {
                 const expencedata = await expencemodel.find({"email":loginuser,"createdAt":{"$gte": new Date(from), "$lte": new Date(to)}});
                 return res.status(200).json({status:true,message:"data found",expencedata});   

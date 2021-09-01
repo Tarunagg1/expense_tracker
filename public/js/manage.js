@@ -1,21 +1,21 @@
 const expenceformel = document.getElementById("addexpense")
-if(expenceformel){
-    expenceformel.addEventListener('submit',(e)=>{
+if (expenceformel) {
+    expenceformel.addEventListener('submit', (e) => {
         e.preventDefault();
         const formdata = $("#addexpense").serialize();
         $.ajax({
-            url:$("#addexpense").attr("action"),
-            type:"POST",
-            data:formdata,
-            success:function(data){
+            url: $("#addexpense").attr("action"),
+            type: "POST",
+            data: formdata,
+            success: function (data) {
                 $("#addexpense")[0].reset();
-                if(data.status){
+                if (data.status) {
                     swal(data.message)
                 }
             },
-            error:function(err){
+            error: function (err) {
                 $("#addexpense")[0].reset();
-                if(err.status){
+                if (err.status) {
                     swal(data.message);
                 }
             }
@@ -23,24 +23,82 @@ if(expenceformel){
     })
 }
 
+
+// add company information
+
+const addCompanyForm = document.getElementById("addCompanyForm");
+if (addCompanyForm) {
+    $("#addCompanyForm").on('submit', (e) => {
+        e.preventDefault();
+        const companyname = $("#companyname").val();
+        const salery = $("#salery").val();
+        const joindate = $("#joindate").val();
+        const degination = $("#degination").val();
+
+        var docs = document.getElementById('docs').files[0];
+        const remark = $("#remark").val();
+        if (!companyname || !salery || !joindate) {
+            swal("Companyname salery or joindate required");
+        } else if (isNaN(salery)) {
+            swal("Enter valid salery");
+        } else {
+            let form_data = new FormData();
+            form_data.append('companyname', companyname);
+            form_data.append('salery', salery);
+            form_data.append('joindate', joindate);
+            form_data.append('degination', degination);
+            form_data.append('doc', docs);
+            form_data.append('remark', remark);
+            $.ajax({
+                url: "/api/addcompany",
+                type: 'POST',
+                data: form_data,
+                contentType: false,
+                cache: false,
+                processData: false,
+                beforeSend: function () {
+                    $("#addCompanybtn").prop('disabled', true);
+                    $('#addCompanybtn').val('Please Wait....');
+
+                },
+                success: function (data) {
+                    $("#addCompanybtn").prop('disabled', false);
+                    $('#addCompanybtn').val('Add Company');
+                    if (data.status) {
+                        swal(data.message)
+                        $("#addCompanyForm")[0].reset();
+                    }
+                },
+                error: function () {
+                    swal("Something went wrong");
+                    $("#addCompanybtn").prop('disabled', false);
+                    $('#addCompanybtn').val('Add Company');
+                }
+            })
+        }
+
+    })
+}
+
+
 ///////////////////// updateprofile
 const updateprofile = document.getElementById("updateprofile");
-if(updateprofile){
-    updateprofile.addEventListener('submit',(e)=>{
+if (updateprofile) {
+    updateprofile.addEventListener('submit', (e) => {
         e.preventDefault();
         const formdata = $("#updateprofile").serialize();
         $.ajax({
-            url:"/updatepass",
-            type:"PUT",
-            data:formdata,
-            success:function(data){
+            url: "/updatepass",
+            type: "PUT",
+            data: formdata,
+            success: function (data) {
                 console.log(data);
-                if(data.status){
+                if (data.status) {
                     swal(data.message)
                 }
             },
-            error:function(err){
-                if(!err.status >= 400){
+            error: function (err) {
+                if (!err.status >= 400) {
                     swal(data.message);
                 }
             }
@@ -51,20 +109,20 @@ if(updateprofile){
 
 /////// change pass
 const changepass = document.getElementById('changepass');
-if(changepass){
-    changepass.addEventListener('submit',(e)=>{
+if (changepass) {
+    changepass.addEventListener('submit', (e) => {
         e.preventDefault();
         // validation
         oldpass = $("#oldpass").val();
         newpass = $("#newpass").val();
         cpass = $("#cpass").val();
 
-        if(!oldpass || !newpass || !cpass){
+        if (!oldpass || !newpass || !cpass) {
             swal("All field required");
             return;
         }
 
-        if(newpass != cpass){
+        if (newpass != cpass) {
             swal("new password not match with confirm password");
             return
         }
@@ -72,16 +130,16 @@ if(changepass){
         // ajax req
         const formdata = $("#changepass").serialize();
         $.ajax({
-            url:"/changepass",
-            type:"PUT",
-            data:formdata,
-            success:function(data){
+            url: "/changepass",
+            type: "PUT",
+            data: formdata,
+            success: function (data) {
                 console.log(data);
-                if(data.status){
+                if (data.status) {
                     swal(data.message)
                 }
             },
-            error:function(err){
+            error: function (err) {
                 resp = JSON.parse(err.responseText)
                 swal(resp.message);
             }
@@ -92,7 +150,7 @@ if(changepass){
 
 
 //////////////////// report genration
-const makeDomUpdate = (data,no)=>{
+const makeDomUpdate = (data, no) => {
     let table = `<h4>${no} Expence found</h4> <button class="btn btn-primary" id="againform">Reload</button> <table id="datatables-dashboard-projects" class="table mt-5 table-striped my-0 dataTable no-footer">
     <thead>
         <tr role="row">
@@ -115,15 +173,15 @@ const makeDomUpdate = (data,no)=>{
     //// reverse to form
     let againformel = document.getElementById("againform");
     console.log(againformel);
-    againformel.addEventListener('click',makeform);
+    againformel.addEventListener('click', makeform);
 }
 
-const iteratedata = (dataobj)=>{
+const iteratedata = (dataobj) => {
     let maketable = '';
     sno = 0;
-    dataobj.map((data,ind)=>{
+    dataobj.map((data, ind) => {
         maketable += ` <tr role="row" class="odd">
-            <td>${ind+1}</td>
+            <td>${ind + 1}</td>
             <td>${data.email}</td>
             <td>${data.title}</td>
             <td>
@@ -134,11 +192,11 @@ const iteratedata = (dataobj)=>{
         </tr>`;
         sno = ind;
     });
-    makeDomUpdate(maketable,sno+1);
+    makeDomUpdate(maketable, sno + 1);
 }
 
 
-const makeform = () =>{
+const makeform = () => {
     const form = `<div class="card">
     <div class="card-header">
         <h5 class="card-title">View profile</h5>
@@ -164,30 +222,30 @@ const makeform = () =>{
 
 
 const viewreportel = document.getElementById("viewreport")
-if(viewreportel){
-    viewreportel.addEventListener('click',()=>{
+if (viewreportel) {
+    viewreportel.addEventListener('click', () => {
         from = $("#from").val();
         to = $("#to").val();
-        if(from == "")
+        if (from == "")
             swal("select from date")
-        else if(to == "")
+        else if (to == "")
             swal("select to date");
-        else{
+        else {
             $.ajax({
-                url:"/getreport",
-                type:"POST",
-                data:"from="+from+"&to="+to,
-                success:function(data){
-                    if(data.status){
+                url: "/getreport",
+                type: "POST",
+                data: "from=" + from + "&to=" + to,
+                success: function (data) {
+                    if (data.status) {
                         console.log(data.expencedata.length);
-                        if(data.expencedata.length){
+                        if (data.expencedata.length) {
                             iteratedata(data.expencedata);
-                        }else{
+                        } else {
                             swal("no expense found");
                         }
                     }
                 },
-                error:function(err){
+                error: function (err) {
                     console.log(err);
                     // resp = JSON.parse(err.responseText)
                     console.log(err.responseJSON);
@@ -202,22 +260,22 @@ if(viewreportel){
 
 //////////////////////////////////////////////// feedback
 const feedbackformel = document.getElementById("feedbackform");
-if(feedbackformel){
-    feedbackformel.addEventListener('submit',(e)=>{
+if (feedbackformel) {
+    feedbackformel.addEventListener('submit', (e) => {
         e.preventDefault();
         const formdata = $("#feedbackform").serialize();
         $.ajax({
-            url:"/feedback",
-            type:"POST",
-            data:formdata,
-            success:function(data){
+            url: "/feedback",
+            type: "POST",
+            data: formdata,
+            success: function (data) {
                 console.log(data);
                 $("#feedbackform")[0].reset();
-                if(data.status){
+                if (data.status) {
                     swal(data.message)
                 }
             },
-            error:function(err){
+            error: function (err) {
                 resp = JSON.parse(err.responseText)
                 swal(resp.message);
             }

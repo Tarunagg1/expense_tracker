@@ -6,6 +6,3 @@ conn.once('open',()=>{
 }).catch((err)=>{
     console.log("connection error",err)
 })
-
-
-
