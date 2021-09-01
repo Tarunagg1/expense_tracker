@@ -12,6 +12,7 @@
         <th>Join data</th>
         <th>Since</th>
         <th>degination</th>
+        <th>letter</th>
         <th>Salery</th>
         <th>remark</th>
         <th>status</th>
@@ -26,6 +27,12 @@
         <td><%= new Date(compdata.joindate).toLocaleDateString() %></td>
         <td><%= new Date(compdata.joindate).getMonth() %> Months</td>
         <td><%= compdata.degination %></td>
+        <td><% if(compdata.letter) { %></td>
+        <!-- <span><%= compdata.letter %></span> -->
+        <span>okok</span>
+        <% } else { %>
+        <span>Not Found</span>
+        <% } %>
         <td>
           <span class="badge badge-success"><%= compdata.salery %></span>
         </td>
@@ -54,7 +61,6 @@
             class="btn btn-sm btn-secondary"
             >Manage</a
           >
-          
         </td>
       </tr>
       <% }) %>
