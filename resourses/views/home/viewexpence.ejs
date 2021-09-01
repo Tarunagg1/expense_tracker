@@ -40,7 +40,7 @@
                             <%= expencedata.desc %>
                         </td>
                         <td>
-                            <%= expencedata.createdAt %>
+                          <%= new Date(expencedata.createdAt).toLocaleDateString() %>
                         </td>
                         <td><a href="/deleteexpense/<%= expencedata._id %>" class="btn btn-sm btn-danger">Delete</a>
                         </td>

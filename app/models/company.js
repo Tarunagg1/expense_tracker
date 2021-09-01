@@ -43,9 +43,16 @@ const compschema = new mongoose.Schema({
             remark: {
                 type: String,
             },
+            deduction:{
+                type: Number,
+            },
             isactive: {
                 type: Boolean,
                 default: true
+            },
+            datetime:{
+                type:Date,
+                default:Date.now()
             }
         }
     ],

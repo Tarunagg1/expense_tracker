@@ -1,3 +1,131 @@
+<!-- // edit -->
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-backdrop="static"
+  data-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Edit Company</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container p-0">
+          <div class="row">
+            <div class="col-12 col-xl-10">
+              <form
+                id="editcompanyForm"
+                onsubmit="return false"
+                enctype="multipart/form-data"
+              >
+                <div class="form-group">
+                  <input
+                    type="hidden"
+                    name="ecid"
+                    id="ecid"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Enter Company name *</label>
+                  <input
+                    type="text"
+                    name="ecompanyname"
+                    id="ecompanyname"
+                    class="form-control"
+                    placeholder="Enter Company name"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Enter salery*</label>
+                  <input
+                    type="number"
+                    name="esalery"
+                    id="esalery"
+                    class="form-control"
+                    placeholder="Enter salery"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Enter Joining date*</label>
+                  <input
+                    type="date"
+                    name="ejoindate"
+                    id="ejoindate"
+                    class="form-control"
+                    placeholder="Enter joining date"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Enter degination *</label>
+                  <input
+                    type="text"
+                    name="edegination"
+                    id="edegination"
+                    class="form-control"
+                    placeholder="Enter degination"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Uploads letter</label>
+                  <input
+                    type="file"
+                    name="docs"
+                    id="edocs"
+                    class="form-control"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Enter remark</label>
+                  <textarea
+                    class="form-control"
+                    name="eremark"
+                    id="eremark"
+                    placeholder="Enter remark"
+                    rows="3"
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  id="updateCompanybtn"
+                  class="btn btn-primary"
+                  onclick="updateEditForm()"
+                >
+                  Update Company
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- add salery -->
+
 <div class="container-fluid">
   <% if(companyData.length){ %>
   <h4 class="mt-4 h3">View All Company</h4>
@@ -27,12 +155,13 @@
         <td><%= new Date(compdata.joindate).toLocaleDateString() %></td>
         <td><%= new Date(compdata.joindate).getMonth() %> Months</td>
         <td><%= compdata.degination %></td>
-        <td><% if(compdata.letter) { %></td>
-        <!-- <span><%= compdata.letter %></span> -->
-        <span>okok</span>
-        <% } else { %>
-        <span>Not Found</span>
-        <% } %>
+        <td>
+          <% if(compdata.letter && compdata.letter != undefined) { %>
+          <span>Active</span>
+          <% } else { %>
+          <span>Not Found</span>
+          <% } %>
+        </td>
         <td>
           <span class="badge badge-success"><%= compdata.salery %></span>
         </td>
@@ -52,14 +181,18 @@
             >Delete</a
           >
           <a
-            href="/editcompany/<%= compdata._id %>"
+            href="#"
+            id="editCompany"
+            data-toggle="modal"
             class="btn btn-sm btn-success"
+            data-target="#staticBackdrop"
+            onclick='editCompany("<%= compdata._id %>")'
             >Edit</a
           >
           <a
-            href="/editcompany/<%= compdata._id %>"
+            href="#"
             class="btn btn-sm btn-secondary"
-            >Manage</a
+            >Add salery</a
           >
         </td>
       </tr>

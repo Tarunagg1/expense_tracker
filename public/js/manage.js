@@ -282,3 +282,84 @@ if (feedbackformel) {
         })
     })
 }
+
+
+
+// editCompany
+
+function editCompany(id){
+    $.ajax({
+        url: `/api/getcompanybiyd/${id}`,
+        type: "GET",
+        success: function ({data}) {
+            $("#ecid").val(data._id);
+            $("#ecompanyname").val(data.companyname);
+            $("#esalery").val(data.salery);
+            $("#ejoindate").val(data.joindate.split("T")[0]);
+            $("#edegination").val(data.degination);
+            $("#eremark").val(data.remark);
+        },
+        error: function (err) {
+            swal("someting went wrong try again");
+        }
+    })
+}   
+
+
+//updateCompanybtn
+
+function updateEditForm(){
+    let ecid = $("#ecid").val();
+    let ecompanyname = $("#ecompanyname").val();
+    let esalery = $("#esalery").val();
+    let ejoindate = $("#ejoindate").val();
+    let edegination = $("#edegination").val();
+    let eremark = $("#eremark").val();
+    var docs = document.getElementById('edocs').files[0];
+    if(!ecid){
+        swal("someting went wrong try again");
+    }else {
+        let form_data = new FormData();
+        form_data.append('id', ecid);
+        form_data.append('companyname', ecompanyname);
+        form_data.append('salery', esalery);
+        form_data.append('joindate', ejoindate);
+        form_data.append('degination', edegination);
+        form_data.append('doc', docs);
+        form_data.append('remark', eremark);
+
+        $.ajax({
+            url: "/api/addcompany",
+            type: 'PUT',
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            beforeSend: function () {
+                $("#updateCompanybtn").prop('disabled', true);
+                $('#updateCompanybtn').val('Please Wait....');
+            },
+            success: function (data) {
+                $("#updateCompanybtn").prop('disabled', false);
+                $('#updateCompanybtn').val('Add Company');
+                if (data.status) {
+                    swal(data.message)
+                    $("#staticBackdrop").hide();
+                    $("#editcompanyForm")[0].reset();
+                    setTimeout(() => {
+                        window.location.href = "/viewcompany";
+                    }, 2000);
+                }
+            },
+            error: function () {
+                swal("Something went wrong");
+                $("#updateCompanybtn").prop('disabled', false);
+                $('#updateCompanybtn').val('Add Company');
+            }
+        })
+    }
+}
+
+
+
+

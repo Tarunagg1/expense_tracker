@@ -34,8 +34,6 @@ const initroute = (app) =>{
     app.get('/addcompany',isuserlogin,getuserdata,companyCon().addcompany);
     app.get('/viewcompany',isuserlogin,getuserdata,companyCon().viewcompany);
     app.get('/deletecompany/:id',isuserlogin,getuserdata,companyCon().deleteCompany);
-    app.get('/editcompany/:id',isuserlogin,getuserdata,companyCon().editcompany);
-    app.get('/viewandaddsalery/:id',isuserlogin,getuserdata,companyCon().viewandaddsalery);
 
     /// profile
     app.get('/viewprofile',isuserlogin,getuserdata,profilecon().viewprofile);

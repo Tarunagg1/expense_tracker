@@ -24,15 +24,6 @@ function indexcontroller() {
             } catch (error) {
                 return res.redirect('/viewcompany');
             }
-        },
-        editcompany: function (req, res) {
-            loginuser = req.userdata[0].email;
-            const cid = req.params.id;
-            return res.render('home/editcompany', { loginuser, title: "Add-editcompany"});
-        },
-        viewandaddsalery:function(req, res){
-            loginuser = req.userdata[0].email;
-            return res.render('home/viewandaddsalery', { loginuser, title: "Add-editcompany" });
         }
     }
 }
