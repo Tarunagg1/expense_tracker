@@ -126,6 +126,201 @@
 
 <!-- add salery -->
 
+<!-- // edit -->
+<div
+  class="modal fade"
+  id="addsalerymodel"
+  data-backdrop="static"
+  data-keyboard="false"
+  tabindex="-1"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Add salery</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container p-0">
+          <div class="row">
+            <div class="col-12 col-xl-10">
+              <form
+                id="addSaleryForm"
+                onsubmit="return false"
+                enctype="multipart/form-data"
+              >
+                <div class="form-group">
+                  <input
+                    type="hidden"
+                    name="escid"
+                    id="escid"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Current salery *</label>
+                  <input
+                    type="text"
+                    name="currentsalery"
+                    id="currentsalery"
+                    class="form-control"
+                    readonly
+                    placeholder="Enter currentsalery name"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Enter recived amount*</label>
+                  <input
+                    type="number"
+                    name="recivedamount"
+                    id="recivedamount"
+                    class="form-control"
+                    placeholder="Enter recived amount"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Enter deduction *</label>
+                  <input
+                    type="text"
+                    name="deduction"
+                    id="deduction"
+                    value="0"
+                    class="form-control"
+                    placeholder="Enter deduction"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Uploads letter</label>
+                  <input
+                    type="file"
+                    name="slip"
+                    id="slip"
+                    class="form-control"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Enter remark</label>
+                  <textarea
+                    class="form-control"
+                    name="remark"
+                    id="remark"
+                    placeholder="Enter remark"
+                    rows="3"
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  id="addsaleryButtonform"
+                  class="btn btn-primary"
+                  onclick="submitAddSalery()"
+                >
+                  Add salery
+                </button>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- view salery -->
+
+<div class="modal fade" id="viewsaleriesModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">View Salery <span id="viewsalcompname">compnayname</span></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="tableDataSalery">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4 col-sm-6">
+              <div class="circle-tile ">
+                <a href="#"><div class="circle-tile-heading dark-blue"><i class="fa fa-users fa-fw fa-3x"></i></div></a>
+                <div class="circle-tile-content dark-blue">
+                  <div class="circle-tile-description text-faded">Total Amount</div>
+                  <div class="circle-tile-number text-faded "><span id="totalamt">100</span></div>
+                  <a class="circle-tile-footer" href="#">More Info<i class="fa fa-chevron-circle-right"></i></a>
+                </div>
+              </div>
+            </div>
+             
+            <div class="col-md-4 col-sm-6">
+              <div class="circle-tile ">
+                <a href="#"><div class="circle-tile-heading red"><i class="fa fa-users fa-fw fa-3x"></i></div></a>
+                <div class="circle-tile-content red">
+                  <div class="circle-tile-description text-faded">Total salery </div>
+                  <div class="circle-tile-number text-faded "><span id="nosalery">100</span></div>
+                  <a class="circle-tile-footer" href="#">More Info<i class="fa fa-chevron-circle-right"></i></a>
+                </div>
+              </div>
+            </div> 
+            
+ 
+            <div class="col-md-4 col-sm-6">
+              <div class="circle-tile ">
+                <a href="#"><div class="circle-tile-heading red"><i class="fa fa-users fa-fw fa-3x"></i></div></a>
+                <div class="circle-tile-content red">
+                  <div class="circle-tile-description text-faded">Total deduction </div>
+                  <div class="circle-tile-number text-faded "><span id="totaldedection">100</span></div>
+                  <a class="circle-tile-footer" href="#">More Info<i class="fa fa-chevron-circle-right"></i></a>
+                </div>
+              </div>
+            </div> 
+
+
+          </div> 
+        </div>  
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">current salery</th>
+              <th scope="col">recived amount</th>
+              <th scope="col">date</th>
+              <th scope="col">Remark</th>
+              <th scope="col">Slip</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody id="tbodysalery">
+                 
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- main  -->
+
 <div class="container-fluid">
   <% if(companyData.length){ %>
   <h4 class="mt-4 h3">View All Company</h4>
@@ -176,6 +371,14 @@
         </td>
         <td>
           <a
+          href="#"
+          class="btn btn-sm btn-primary"
+          data-toggle="modal"
+          data-target="#viewsaleriesModal"
+          onclick='viewSaleryFunction("<%= compdata._id %>")'
+          >View Salery</a
+        >
+          <a
             href="/deletecompany/<%= compdata._id %>"
             class="btn btn-sm btn-danger"
             >Delete</a
@@ -191,7 +394,11 @@
           >
           <a
             href="#"
+            id="editCompany"
+            data-toggle="modal"
+            data-target="#addsalerymodel"
             class="btn btn-sm btn-secondary"
+            onclick='AddSaleryButton("<%= compdata._id %>","<%= compdata.salery %>")'
             >Add salery</a
           >
         </td>

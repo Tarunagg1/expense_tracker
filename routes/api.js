@@ -113,6 +113,15 @@ router.get("/getcompanybiyd/:id", isuserlogin, getuserdata, async (req, res) => 
   }
 })
 
+// get company for salery
+router.get("/getsalerybyid/:id", async (req, res) => {
+  try {
+    let data = await companyModel.findById(req.params.id);
+    return res.status(200).json({ status: true, message: "salery data", data });
+  } catch (error) {
+    return res.status(400).json({ status: false, err: error, message: "someting went wrong try letter" });
+  }
+})
 
 // update form
 router.put('/addcompany', isuserlogin, getuserdata, (req, res) => {
@@ -149,7 +158,7 @@ router.put('/addcompany', isuserlogin, getuserdata, (req, res) => {
   }
 })
 
-router.post('/addsalery',isuserlogin, getuserdata,(req, res) => {
+router.post('/addsalery', isuserlogin, getuserdata, (req, res) => {
   try {
     upload(req, res, async (err) => {
       if (err) {
@@ -162,7 +171,7 @@ router.post('/addsalery',isuserlogin, getuserdata,(req, res) => {
         slip = req.file.filename;
       }
 
-      let { currentsalery, recivedamount, remark,deduction } = req.body;
+      let { currentsalery, recivedamount, remark, deduction } = req.body;
 
       if (!recivedamount || !currentsalery) {
         return res.status(400).json({ status: false, message: "recivedamount and currentsalery are required" });

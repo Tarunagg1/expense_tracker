@@ -287,11 +287,11 @@ if (feedbackformel) {
 
 // editCompany
 
-function editCompany(id){
+function editCompany(id) {
     $.ajax({
         url: `/api/getcompanybiyd/${id}`,
         type: "GET",
-        success: function ({data}) {
+        success: function ({ data }) {
             $("#ecid").val(data._id);
             $("#ecompanyname").val(data.companyname);
             $("#esalery").val(data.salery);
@@ -303,12 +303,12 @@ function editCompany(id){
             swal("someting went wrong try again");
         }
     })
-}   
+}
 
 
 //updateCompanybtn
 
-function updateEditForm(){
+function updateEditForm() {
     let ecid = $("#ecid").val();
     let ecompanyname = $("#ecompanyname").val();
     let esalery = $("#esalery").val();
@@ -316,9 +316,9 @@ function updateEditForm(){
     let edegination = $("#edegination").val();
     let eremark = $("#eremark").val();
     var docs = document.getElementById('edocs').files[0];
-    if(!ecid){
+    if (!ecid) {
         swal("someting went wrong try again");
-    }else {
+    } else {
         let form_data = new FormData();
         form_data.append('id', ecid);
         form_data.append('companyname', ecompanyname);
@@ -361,5 +361,107 @@ function updateEditForm(){
 }
 
 
+// AddSaleryButton
+function AddSaleryButton(companyid, currsalery) {
+    $("#escid").val(companyid);
+    $("#currentsalery").val(currsalery);
+}
+
+function submitAddSalery() {
+    let companyid = $("#escid").val();
+    let currsalery = $("#currentsalery").val();
+    let recivedamount = $("#recivedamount").val();
+    let deduction = $("#deduction").val();
+    let remark = $("#remark").val();
+    var slip = document.getElementById('slip').files[0];
+
+    if (!companyid) {
+        swal("someting went wrong try again");
+    } else {
+        let form_data = new FormData();
+        form_data.append('id', companyid);
+        form_data.append('currentsalery', currsalery);
+        form_data.append('recivedamount', recivedamount);
+        form_data.append('deduction', deduction);
+        form_data.append('doc', slip);
+        form_data.append('remark', remark);
+        $.ajax({
+            url: "/api/addsalery",
+            type: 'POST',
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (data) {
+                if (data.status) {
+                    swal(data.message)
+                    $("#addSaleryForm")[0].reset();
+                    setTimeout(() => {
+                        window.location.href = "/viewcompany";
+                    }, 2000);
+                }
+            },
+            error: function () {
+                swal("Something went wrong");
+            }
+        })
+    }
+
+}
+
+function viewSaleryFunction(id) {
+    $.ajax({
+        url: `/api/getsalerybyid/${id}`,
+        type: "GET",
+        success: function ({ data }) {
+            console.log(data);
+            let totalamt = 0, deductionamt = 0;
+            let html = "";
+            data.saleryData.forEach((element, ind) => {
+                totalamt += element.recivedamount || 0;
+                deductionamt += element.deduction || 0;
+                html += `
+                    <tr id='seldelbtn${ind}'>
+                        <th scope="row">${ind + 1}</th>
+                        <td>${element.currentsalery}</td>
+                        <td>${element.recivedamount}</td>
+                        <td>${new Date(element.datetime).toLocaleDateString()}</td>
+                        <td>${element.remark}</td>
+                        <td>${element.slip != undefined ? "view" : "no slip"}</td>
+                        <td>
+                        <a href="#" onclick='deleteSlip(${id},${element._id},${ind})' class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>     
+              `;
+            });
+
+            $("#viewsalcompname").text(data.companyname);
+            $("#totalamt").text(totalamt);
+            $("#nosalery").text(data.saleryData.length);
+            $("#totaldedection").text(deductionamt);
+            $("#tbodysalery").html(html);
+        },
+        error: function (err) {
+            swal("someting went wrong try again");
+        }
+    })
+}
 
 
+function deleteSlip(id, sid, ind) {
+    console.log(id, sid, ind);
+    $.ajax({
+        url: `/api/addsalery`,
+        type: "DELETE",
+        data:{id,sid},
+        contentType: 'application/json',
+        cache: false,
+        processData: false,
+        success: function ({ data }) {
+            console.log(data);
+        },
+        error: function (err) {
+            swal("someting went wrong try again");
+        }
+    })
+}
