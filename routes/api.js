@@ -114,7 +114,7 @@ router.get("/getcompanybiyd/:id", isuserlogin, getuserdata, async (req, res) => 
 })
 
 // get company for salery
-router.get("/getsalerybyid/:id", async (req, res) => {
+router.get("/getsalerybyid/:id",isuserlogin, getuserdata,async (req, res) => {
   try {
     let data = await companyModel.findById(req.params.id);
     return res.status(200).json({ status: true, message: "salery data", data });
