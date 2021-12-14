@@ -427,7 +427,7 @@ function viewSaleryFunction(id) {
                         <td>${element.recivedamount}</td>
                         <td>${new Date(element.datetime).toLocaleDateString()}</td>
                         <td>${element.remark}</td>
-                        <td>${element.slip != undefined ? "view" : "no slip"}</td>
+                        <td>${element.slip != undefined ? '<a href="http://localhost:3000/docs/${element.slip}">View</a>' : "no slip"}</td>
                         <td>
                         <a href="#" onclick='deleteSlip(${id},${element._id},${ind})' class="btn btn-sm btn-danger">Delete</a>
                         </td>
@@ -453,7 +453,7 @@ function deleteSlip(id, sid, ind) {
     $.ajax({
         url: `/api/addsalery`,
         type: "DELETE",
-        data:{id,sid},
+        data: { id, sid },
         contentType: 'application/json',
         cache: false,
         processData: false,
